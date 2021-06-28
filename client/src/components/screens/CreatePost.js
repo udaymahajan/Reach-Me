@@ -38,21 +38,30 @@ const CretePost = ()=>{
   
    const postDetails = ()=>{
        const data = new FormData()
-       data.append("file",image)
-       data.append("upload_preset","new-insta")
-       data.append("cloud_name","abhish")
-       fetch("https://api.cloudinary.com/v1_1/abhish/image/upload",{
-           method:"post",
-           body:data
-       })
-       .then(res=>res.json())
-       .then(data=>{
-          setUrl(data.url)
-       })
-       .catch(err=>{
-           console.log(err)
-       })
-
+       
+        for(const key of Object.keys(image)){
+            const types=['image/png', 'image/jpeg', 'image/jpg']
+            if(types.every(type => image[key].type !== type)){
+                M.toast({html:"Choose .png,.jpeg,.jpg files only",classes:"#c62828 red darken-3"})
+            }
+            else{
+                data.append("file",image[key])
+                data.append("upload_preset","new-insta")
+                data.append("cloud_name","abhish")
+                fetch("https://api.cloudinary.com/v1_1/abhish/image/upload",{
+                    method:"post",
+                    body:data
+                })
+                .then(res=>res.json())
+                .then(data=>{
+                setUrl(data.url)
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
+            }     
+      
+    }
     
    }
  
@@ -81,7 +90,8 @@ const CretePost = ()=>{
            <div className="file-field input-field">
             <div className="btn #64b5f6 blue darken-1">
                 <span>Uplaod Image</span>
-                <input type="file" onChange={(e)=>setImage(e.target.files[0])} />
+                <input type="file" multiple onChange={(e)=>setImage(e.target.files)                  
+                   } />
             </div>
             <div className="file-path-wrapper">
                 <input className="file-path validate" type="text" />

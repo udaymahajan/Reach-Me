@@ -60,7 +60,7 @@ const NavBar = ()=>{
     return(
         <nav>
         <div className="nav-wrapper white">
-          <Link to={state?"/":"/signin"} className="brand-logo left">Instagram</Link>
+          <Link to={state?"/":"/signin"} className="brand-logo left">Reach Me</Link>
           <ul id="nav-mobile" className="right">
              {renderList()}
   
@@ -76,7 +76,7 @@ const NavBar = ()=>{
             />
              <ul className="collection">
                {userDetails.map(item=>{
-                 return <Link to={item._id !== state._id ? "/profile/"+item._id:'/profile'} onClick={()=>{
+                 return <Link to={"/profile/"+item._id} onClick={()=>{
                    M.Modal.getInstance(searchModal.current).close()
                    setSearch('')
                  }}><li className="collection-item">{item.email}</li></Link> 
